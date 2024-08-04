@@ -57,7 +57,7 @@ pipeline {
                     "files": [
                         {
                             "pattern": "/home/ubuntu/jenkins/workspace/Nam-trend-multibranch_main/jarstaging/com/valaxy/demo-workshop/2.1.3/(*)",
-                            "target": "abdul-lib-snapshot-libs-release-local/{1}",
+                            "target": "abdul-lib-snapshot-libs-release-local/com/valaxy/demo-workshop/2.1.3/{1}",
                             "flat": "false",
                             "props": "${properties}",
                             "exclusions": [ "*.sha1", "*.md5"]
@@ -81,6 +81,7 @@ pipeline {
                     throw e
                 }
             }
+
 
         }
         }
