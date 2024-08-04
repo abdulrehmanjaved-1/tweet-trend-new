@@ -50,26 +50,38 @@ pipeline {
         stage("Jar Publish") {
         steps {
             script {
-                    echo '<--------------- Jar Publish Started --------------->'
-                     def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"jfrog-artifactory-credentials"
-                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
-                     def uploadSpec = """{
-                          "files": [
-                            {
-                              "pattern": "jarstaging/(*)",
-                              "target": "abdul-lib-snapshot-libs-release-local/{1}",
-                              "flat": "false",
-                              "props" : "${properties}",
-                              "exclusions": [ "*.sha1", "*.md5"]
-                            }
-                         ]
-                     }"""
-                     def buildInfo = server.upload(uploadSpec)
-                     buildInfo.env.collect()
-                     server.publishBuildInfo(buildInfo)
-                     echo '<--------------- Jar Publish Ended --------------->'  
-            
+                echo '<--------------- Jar Publish Started --------------->'
+                def server = Artifactory.newServer url: registry + "/artifactory", credentialsId: "jfrog-artifactory-credentials"
+                def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}"
+                def uploadSpec = """{
+                    "files": [
+                        {
+                            "pattern": "/home/ubuntu/jenkins/workspace/Nam-trend-multibranch_main/jarstaging/com/valaxy/demo-workshop/2.1.3/(*)",
+                            "target": "abdul-lib-snapshot-libs-release-local/{1}",
+                            "flat": "false",
+                            "props": "${properties}",
+                            "exclusions": [ "*.sha1", "*.md5"]
+                        }
+                    ]
+                }"""
+                echo "Upload spec: ${uploadSpec}"
+
+                // Verify if files exist in the specified pattern
+                echo "Listing files in /home/ubuntu/jenkins/workspace/Nam-trend-multibranch_main/jarstaging/com/valaxy/demo-workshop/2.1.3/:"
+                sh "ls -l /home/ubuntu/jenkins/workspace/Nam-trend-multibranch_main/jarstaging/com/valaxy/demo-workshop/2.1.3/"
+
+                try {
+                    def buildInfo = server.upload(uploadSpec)
+                    buildInfo.env.collect()
+                    server.publishBuildInfo(buildInfo)
+                    echo '<--------------- Jar Publish Ended --------------->'
+                } catch (Exception e) {
+                    echo "Error during upload: ${e.message}"
+                    e.printStackTrace()
+                    throw e
+                }
             }
+
         }
         }
     }
