@@ -1,4 +1,6 @@
 def registry = 'https://abduldevops.jfrog.io'
+def imageName= 'https://abduldevops.jfrog.io/artifactory/abdul-docker-local'
+def version= '2.1.3'
 pipeline {
     agent { label 'maven' }
 
@@ -86,6 +88,29 @@ pipeline {
 
         }
         }
+
+        stage("Docker Build") {
+            steps {
+                script {
+                    echo '<--------------- Docker Build Started --------------->'
+                    def app = docker.build(imageName + ":" + version)
+                    echo '<--------------- Docker Build Ends --------------->'
+                }
+            }
+}
+        stage("Docker Publish") {
+            steps {
+                script {
+                    echo '<--------------- Docker Publish Started --------------->'
+                    docker.withRegistry(registry, 'jfrogartifact-credentials') {
+                        app.push()
+                    }
+                    echo '<--------------- Docker Publish Ended --------------->'
+                }
+            }
+        }
+
+
     }
 }
 
