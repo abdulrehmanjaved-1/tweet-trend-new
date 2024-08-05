@@ -1,5 +1,5 @@
 def registry = 'https://abduldevops.jfrog.io'
-def imageName= 'https://abduldevops.jfrog.io/artifactory/abdul-docker-local'
+def imageName= 'abduldevops.jfrog.io/abdul-docker-local/namtrend'
 def version= '2.1.3'
 pipeline {
     agent { label 'maven' }
