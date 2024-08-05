@@ -52,12 +52,12 @@ pipeline {
             script {
                 echo '<--------------- Jar Publish Started --------------->'
                 def server = Artifactory.newServer url: registry + "/artifactory", credentialsId: "jfrog-artifactory-credentials"
-                def properties = "buildid=1,commitid=c1"
+                def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}"
                 def uploadSpec = """{
                     "files": [
                         {
-                            "pattern": "/home/ubuntu/jenkins/workspace/Nam-trend-multibranch_main/jarstaging/com/valaxy/demo-workshop/2.1.3/(*)",
-                            "target": "abdul-lib-snapshot-libs-release-local/com/valaxy/demo-workshop/2.1.3/{1}",
+                            "pattern": "jarstaging/(*)",
+                            "target": "libs-snapshot-local/{1}",
                             "flat": "false",
                             "props": "${properties}",
                             "exclusions": [ "*.sha1", "*.md5"]
