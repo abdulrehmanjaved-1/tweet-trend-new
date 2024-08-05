@@ -57,7 +57,7 @@ pipeline {
                     "files": [
                         {
                             "pattern": "jarstaging/(*)",
-                            "target": "abdul-lib-snapshot-libs-release-local/com/valaxy/demo-workshop/2.1.3/{1}",
+                            "target": "abdul-lib-snapshot-libs-release-local/{1}",
                             "flat": "false",
                             "props": "${properties}",
                             "exclusions": [ "*.sha1", "*.md5"]
