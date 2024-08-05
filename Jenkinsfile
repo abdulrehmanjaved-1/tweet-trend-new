@@ -102,7 +102,7 @@ pipeline {
             steps {
                 script {
                     echo '<--------------- Docker Publish Started --------------->'
-                    docker.withRegistry(registry, 'jfrogartifact-credentials') {
+                    docker.withRegistry(registry, 'jfrog-artifact-creds') {
                         app.push()
                     }
                     echo '<--------------- Docker Publish Ended --------------->'
