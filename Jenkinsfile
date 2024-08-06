@@ -115,7 +115,9 @@ pipeline {
         stage ("Deploy"){
             steps {
                 script {
-                    sh './deploy.sh'
+                    echo '<------------------- Heml Deploy Started --------------->'
+                    sh 'helm install namtrend namtrend-0.1.0.tgz'
+                    echo '<------------------- Heml Deploy Ends --------------->'
                 }
             }
         }
